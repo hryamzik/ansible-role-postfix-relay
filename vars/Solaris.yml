@@ -1,0 +1,4 @@
+---
+etc_path: /opt/local
+ssl_path: "{{ etc_path + '/etc/openssl'}}"
+ssl_cert: selfsigned

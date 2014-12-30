@@ -1,0 +1,6 @@
+- hosts: mailrelayed
+  sudo: yes
+  roles:
+    - role: postfix-relay
+      # tags:
+      #   - postfix-relay

@@ -1,0 +1,6 @@
+---
+- name: install postfix
+  pkgin: name={{ item }} state=present
+  with_items:
+      - postfix
+      - cy2-plain

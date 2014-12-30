@@ -1,0 +1,51 @@
+---
+- include_vars: "{{ ansible_os_family }}.yml"
+
+# CentOS specific package installations
+- include: RedHat.yml
+  when: ansible_os_family  == "RedHat"
+
+# Debian specific package installations
+- include: Debian.yml
+  when: ansible_os_family  == "Debian"
+
+# Ubuntu specific package installations
+- include: Ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+# Solaris specific package installations
+- include: Solaris.yml
+  when: ansible_os_family == "Solaris"
+
+- include: gen-self-signed.yml
+
+- name: Generate postfix password file
+  template: src=postfix/relay_password.jinja
+            dest={{ etc_path }}/etc/postfix/relay_password
+            owner=root
+            group=root
+            mode=0644
+  notify:
+    - postmap relay_password
+    
+- name: Generate postfix config file
+  template: src=postfix/main.cf.jinja
+            dest={{ etc_path }}/etc/postfix/main.cf
+            owner=root
+            group=root
+            mode=0644
+  notify:
+    - restart postfix
+
+- name: Set domain rewrite
+  template:
+      src=postfix/sender_canonical.jinja
+      dest={{ etc_path }}/etc/postfix/sender_canonical
+      owner=root
+      group=root
+      mode=0644
+  notify:
+    - postmap sender_canonical
+    - restart postfix
+
+# todo: /etc/mailname (wasn't presented on 14.04)

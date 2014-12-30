@@ -1,0 +1,4 @@
+---
+etc_path: ""
+ssl_path: "{{ etc_path + '/etc/ssl'}}"
+ssl_cert: ssl-cert-snakeoil

@@ -1,0 +1,12 @@
+---
+postfix_username: username
+postfix_password: password
+postfix_relay_host: smtp.mycompany
+postfix_domain: mycompany.com
+
+ssl_commonName: "{{ ansible_fqdn }}"
+ssl_countryName: RU
+ssl_stateOrProvinceName: St-Petersburg
+ssl_localityName: St-Petersburg
+ssl_organizationName: "{{ ansible_fqdn }}"
+ssl_organizationUnit: IT

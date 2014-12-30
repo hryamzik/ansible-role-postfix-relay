@@ -1,0 +1,16 @@
+---
+- name: restart postfix
+  service: name=postfix state=restarted
+
+- name: postmap relay_password
+  command: postmap hash:{{ etc_path }}/etc/postfix/relay_password
+  notify:
+      - remove relay_password
+
+- name: remove relay_password
+  file: dest={{ etc_path }}/etc/postfix/relay_password
+        state=absent
+
+- name: postmap sender_canonical
+  command: postmap hash:{{ etc_path }}/etc/postfix/sender_canonical
+  

@@ -1,0 +1,6 @@
+---
+- name: create self-signed SSL cert
+  command: openssl req -new -nodes -x509 -subj "/C={{ ssl_countryName }}/ST={{ ssl_stateOrProvinceName }}/L={{ ssl_localityName }}/O={{ ssl_organizationUnit }}/CN={{ ssl_commonName }}" -days 3650 -keyout {{ ssl_path }}/private/{{ ssl_cert }}.key -out {{ ssl_path }}/certs/{{ ssl_cert }}.pem -extensions v3_ca creates={{ ssl_path }}/certs/{{ ssl_cert }}.pem
+#" openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem
+# openssl req -newkey rsa:2048 -new -nodes -keyout key.pem -out csr.pem
+# -outform PEM
