@@ -25,8 +25,13 @@
             owner=root
             group=root
             mode=0644
+    
+- name: check relay_password
+  stat: path={{ etc_path }}/etc/postfix/relay_password
+  register: result
   notify:
     - postmap relay_password
+  changed_when: "{{ result.stat.exists }}"
     
 - name: Generate postfix config file
   template: src=postfix/main.cf.jinja
@@ -48,4 +53,13 @@
     - postmap sender_canonical
     - restart postfix
 
-# todo: /etc/mailname (wasn't presented on 14.04)
+- name: check /etc/mailname
+  stat: path=/etc/mailname
+  register: etc_mailname
+  changed_when: "{{ not etc_mailname.stat.exists }}"
+  
+- name: create /etc/mailname
+  copy: dest=/etc/mailname content="{{ postfix_mailname }}\n"
+  when: "{{ etc_mailname|changed }}"
+  notify:
+    - restart postfix

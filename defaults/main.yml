@@ -3,6 +3,7 @@ postfix_username: username
 postfix_password: password
 postfix_relay_host: smtp.mycompany
 postfix_domain: mycompany.com
+postfix_mailname: "{{ ansible_hostname }}"
 
 ssl_commonName: "{{ ansible_fqdn }}"
 ssl_countryName: RU
